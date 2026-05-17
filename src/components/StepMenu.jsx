@@ -1,7 +1,8 @@
-import { STEPS } from "../data/steps.js";
+import { UI } from "../i18n/ui.js";
 
-export default function StepMenu({ open, onClose, stepIndex, answers, onNavigate }) {
+export default function StepMenu({ open, onClose, stepIndex, answers, onNavigate, lang, steps }) {
   if (!open) return null;
+  const t = UI[lang ?? "en"];
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function StepMenu({ open, onClose, stepIndex, answers, onNavigate
           display: "flex", justifyContent: "space-between", alignItems: "center",
         }}>
           <span style={{ color: "#00e676", fontWeight: 800, fontSize: 10.5, letterSpacing: 2.5 }}>
-            ALL STEPS
+            {t.allSteps}
           </span>
           <button
             onClick={onClose}
@@ -36,8 +37,9 @@ export default function StepMenu({ open, onClose, stepIndex, answers, onNavigate
         </div>
 
         <div style={{ flex: 1, overflowY: "auto" }}>
-          {STEPS.map((step, i) => {
+          {steps.map((step, i) => {
             const answer = answers.find(a => a.step === step.id);
+            const answerOk = answer != null ? step.options[answer.optionIndex]?.ok : undefined;
             const isCurrent = i === stepIndex;
             return (
               <button
@@ -64,9 +66,9 @@ export default function StepMenu({ open, onClose, stepIndex, answers, onNavigate
                 }}>
                   {step.title}
                 </span>
-                {answer && (
-                  <span style={{ fontSize: 12, color: answer.ok ? "#00e676" : "#ffd600", flexShrink: 0 }}>
-                    {answer.ok ? "✓" : "⚠"}
+                {answer != null && (
+                  <span style={{ fontSize: 12, color: answerOk ? "#00e676" : "#ffd600", flexShrink: 0 }}>
+                    {answerOk ? "✓" : "⚠"}
                   </span>
                 )}
               </button>

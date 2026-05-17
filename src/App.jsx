@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { STEPS } from "./data/steps.js";
+import { STEPS as STEPS_KO } from "./data/steps.ko.js";
 import StepView from "./components/StepView.jsx";
 import ReportScreen from "./components/ReportScreen.jsx";
 
 export default function App() {
+  const [lang, setLang] = useState("en");
   const [stepIndex, setStepIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [toast, setToast] = useState(null);
@@ -11,18 +13,20 @@ export default function App() {
   const [answers, setAnswers] = useState([]);
   const timerRef = useRef(null);
 
+  const steps = lang === "ko" ? STEPS_KO : STEPS;
+
   const handleSelect = (opt, idx) => {
     if (selected !== null) return;
     setSelected(idx);
     const newAnswers = [
-      ...answers.filter(a => a.step !== STEPS[stepIndex].id),
-      { step: STEPS[stepIndex].id, title: STEPS[stepIndex].title, ...opt },
+      ...answers.filter(a => a.step !== steps[stepIndex].id),
+      { step: steps[stepIndex].id, optionIndex: idx },
     ];
     setAnswers(newAnswers);
     setToast(opt.interp);
     timerRef.current = setTimeout(() => {
       setToast(null);
-      if (stepIndex < STEPS.length - 1) {
+      if (stepIndex < steps.length - 1) {
         setStepIndex(s => s + 1);
         setSelected(null);
       } else {
@@ -46,19 +50,22 @@ export default function App() {
   };
 
   if (done) return (
-    <ReportScreen answers={answers} onReset={reset} onNavigate={navigateTo} stepIndex={-1} />
+    <ReportScreen answers={answers} onReset={reset} onNavigate={navigateTo} stepIndex={-1} lang={lang} setLang={setLang} steps={steps} />
   );
 
   return (
     <StepView
-      step={STEPS[stepIndex]}
+      step={steps[stepIndex]}
       stepIndex={stepIndex}
-      total={STEPS.length}
+      total={steps.length}
       onSelect={handleSelect}
       selected={selected}
       toast={toast}
       answers={answers}
       onNavigate={navigateTo}
+      lang={lang}
+      setLang={setLang}
+      steps={steps}
     />
   );
 }

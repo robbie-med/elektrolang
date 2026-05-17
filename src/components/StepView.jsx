@@ -1,25 +1,35 @@
 import { useState } from "react";
 import { HL } from "../data/ekgData.js";
+import { UI } from "../i18n/ui.js";
 import EKGStrip from "./EKGStrip.jsx";
 import CriteriaTable from "./CriteriaTable.jsx";
 import StepMenu from "./StepMenu.jsx";
 
-export default function StepView({ step, stepIndex, total, onSelect, selected, toast, answers, onNavigate }) {
+export default function StepView({ step, stepIndex, total, onSelect, selected, toast, answers, onNavigate, lang, setLang, steps }) {
   const [criteriaOpen, setCriteriaOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const hl = HL[step.hl];
+  const t = UI[lang];
 
   return (
     <div style={{ background: "#060d14", minHeight: "100vh", color: "#e0f7e9", fontFamily: "'Courier New', monospace", maxWidth: 680, margin: "0 auto" }}>
-      <StepMenu open={menuOpen} onClose={() => setMenuOpen(false)} stepIndex={stepIndex} answers={answers} onNavigate={onNavigate} />
+      <StepMenu open={menuOpen} onClose={() => setMenuOpen(false)} stepIndex={stepIndex} answers={answers} onNavigate={onNavigate} lang={lang} steps={steps} />
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px 8px", borderBottom: "1px solid #0d2a1a" }}>
-        <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>EKG READER</span>
+        <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>{t.appName}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: "#3a5a45", fontSize: 11 }}>Step {stepIndex + 1} / {total}</span>
+          <span style={{ color: "#3a5a45", fontSize: 11 }}>{t.stepOf(stepIndex + 1, total)}</span>
           <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5 }}>
             {step.title.toUpperCase()}
           </span>
+          <button
+            onClick={() => setLang(lang === "en" ? "ko" : "en")}
+            style={{
+              background: "none", border: "1px solid #163d28", borderRadius: 4,
+              cursor: "pointer", fontSize: 16, padding: "1px 5px", lineHeight: 1.4,
+            }}
+            title={lang === "en" ? "한국어로 전환" : "Switch to English"}
+          >{lang === "en" ? "🇰🇷" : "🇺🇸"}</button>
           <button
             onClick={() => setMenuOpen(true)}
             style={{
@@ -27,7 +37,7 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
               color: "#00e676", cursor: "pointer", fontSize: 14,
               padding: "2px 7px", lineHeight: 1.4, letterSpacing: 1,
             }}
-            title="All steps"
+            title={t.allSteps}
           >☰</button>
         </div>
       </div>
@@ -71,7 +81,7 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
               width: "100%", textAlign: "left",
             }}
           >
-            <span>📊 DIAGNOSTIC CRITERIA &amp; THRESHOLDS</span>
+            <span>📊 {t.diagnosticCriteria}</span>
             <span style={{ marginLeft: "auto", fontSize: 10 }}>{criteriaOpen ? "▲" : "▼"}</span>
           </button>
           {criteriaOpen && <CriteriaTable criteria={step.criteria} />}
@@ -118,7 +128,7 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
           width: "100%", maxWidth: 680, background: "#07180d",
           borderTop: "2px solid #00b050", padding: "12px 14px", zIndex: 100,
         }}>
-          <div style={{ color: "#3a7a50", fontSize: 9.5, fontWeight: 800, letterSpacing: 1.5, marginBottom: 5 }}>📝 INTERPRETATION</div>
+          <div style={{ color: "#3a7a50", fontSize: 9.5, fontWeight: 800, letterSpacing: 1.5, marginBottom: 5 }}>📝 {t.interpretation}</div>
           <div style={{ color: "#b8e8cc", fontSize: 12, lineHeight: 1.58 }}>{toast}</div>
         </div>
       )}
