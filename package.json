@@ -17,6 +17,9 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
     "vite": "^5.4.11",
-    "vite-plugin-pwa": "^0.21.1"
+    "vite-plugin-pwa": "^0.21.2"
+  },
+  "overrides": {
+    "serialize-javascript": "6.0.2"
   }
 }

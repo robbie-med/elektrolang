@@ -26,7 +26,7 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
 
       {/* EKG Strip */}
       <div style={{ background: "#040c09" }}>
-        <EKGStrip hlKey={stepIndex} hl={hl} />
+        <EKGStrip hl={hl} />
       </div>
 
       {/* Lead + LookAt */}

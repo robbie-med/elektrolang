@@ -1,6 +1,6 @@
 import { EKG_D } from "../data/ekgData.js";
 
-export default function EKGStrip({ hlKey, hl }) {
+export default function EKGStrip({ hl }) {
   return (
     <svg viewBox="0 0 780 140" style={{ width: "100%", display: "block" }}>
       <defs>
@@ -21,7 +21,6 @@ export default function EKGStrip({ hlKey, hl }) {
       </defs>
       <rect width="780" height="140" fill="url(#ekglg)" />
       <rect
-        key={hlKey}
         x={hl.x} y={0} width={hl.w} height={140}
         fill="rgba(255,210,0,0.08)" stroke="#ffd600" strokeWidth="1.5"
         style={{ transition: "all 0.35s ease" }}
