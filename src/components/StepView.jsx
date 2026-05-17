@@ -17,16 +17,16 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px 8px", borderBottom: "1px solid #0d2a1a" }}>
         <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>{t.appName}</span>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ color: "#3a5a45", fontSize: 11 }}>{t.stepOf(stepIndex + 1, total)}</span>
-          <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+          <span style={{ color: "#3a5a45", fontSize: 11, flexShrink: 0 }}>{t.stepOf(stepIndex + 1, total)}</span>
+          <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, maxWidth: 110, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flexShrink: 1 }}>
             {step.title.toUpperCase()}
           </span>
           <button
             onClick={() => setLang(lang === "en" ? "ko" : "en")}
             style={{
               background: "none", border: "1px solid #163d28", borderRadius: 4,
-              cursor: "pointer", fontSize: 16, padding: "1px 5px", lineHeight: 1.4,
+              cursor: "pointer", fontSize: 16, padding: "1px 5px", lineHeight: 1.4, flexShrink: 0,
             }}
             title={lang === "en" ? "한국어로 전환" : "Switch to English"}
           >{lang === "en" ? "🇰🇷" : "🇺🇸"}</button>
@@ -35,7 +35,7 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
             style={{
               background: "none", border: "1px solid #163d28", borderRadius: 4,
               color: "#00e676", cursor: "pointer", fontSize: 14,
-              padding: "2px 7px", lineHeight: 1.4, letterSpacing: 1,
+              padding: "2px 7px", lineHeight: 1.4, letterSpacing: 1, flexShrink: 0,
             }}
             title={t.allSteps}
           >☰</button>

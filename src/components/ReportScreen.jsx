@@ -42,12 +42,12 @@ export default function ReportScreen({ answers, onReset, onNavigate, stepIndex, 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px 8px", borderBottom: "1px solid #0d2a1a" }}>
         <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>{t.appName}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5 }}>{t.finalReport}</span>
+          <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, flexShrink: 0 }}>{t.finalReport}</span>
           <button
             onClick={() => setLang(lang === "en" ? "ko" : "en")}
             style={{
               background: "none", border: "1px solid #163d28", borderRadius: 4,
-              cursor: "pointer", fontSize: 16, padding: "1px 5px", lineHeight: 1.4,
+              cursor: "pointer", fontSize: 16, padding: "1px 5px", lineHeight: 1.4, flexShrink: 0,
             }}
             title={lang === "en" ? "한국어로 전환" : "Switch to English"}
           >{lang === "en" ? "🇰🇷" : "🇺🇸"}</button>
