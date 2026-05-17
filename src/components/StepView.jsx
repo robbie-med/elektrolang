@@ -2,13 +2,16 @@ import { useState } from "react";
 import { HL } from "../data/ekgData.js";
 import EKGStrip from "./EKGStrip.jsx";
 import CriteriaTable from "./CriteriaTable.jsx";
+import StepMenu from "./StepMenu.jsx";
 
-export default function StepView({ step, stepIndex, total, onSelect, selected, toast }) {
+export default function StepView({ step, stepIndex, total, onSelect, selected, toast, answers, onNavigate }) {
   const [criteriaOpen, setCriteriaOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const hl = HL[step.hl];
 
   return (
     <div style={{ background: "#060d14", minHeight: "100vh", color: "#e0f7e9", fontFamily: "'Courier New', monospace", maxWidth: 680, margin: "0 auto" }}>
+      <StepMenu open={menuOpen} onClose={() => setMenuOpen(false)} stepIndex={stepIndex} answers={answers} onNavigate={onNavigate} />
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px 8px", borderBottom: "1px solid #0d2a1a" }}>
         <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>EKG READER</span>
@@ -17,6 +20,15 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
           <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5 }}>
             {step.title.toUpperCase()}
           </span>
+          <button
+            onClick={() => setMenuOpen(true)}
+            style={{
+              background: "none", border: "1px solid #163d28", borderRadius: 4,
+              color: "#00e676", cursor: "pointer", fontSize: 14,
+              padding: "2px 7px", lineHeight: 1.4, letterSpacing: 1,
+            }}
+            title="All steps"
+          >☰</button>
         </div>
       </div>
       {/* Progress */}
