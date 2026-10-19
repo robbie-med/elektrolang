@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { LEADS, LAYOUT, newCase, demoCase, demoBifascicular } from "../../engine/leads.js";
+import { scanToCase } from "../../engine/scan/measure.js";
 import { runWorkup } from "../../engine/workup.js";
 import { rProgression } from "../../engine/checks.js";
 import { WUI } from "../../i18n/workup.js";
+import { PUI } from "../../i18n/patterns.js";
 import LeadGrid from "./LeadGrid.jsx";
 import LeadEditor from "./LeadEditor.jsx";
 import MeasureForm from "./MeasureForm.jsx";
 import ReasoningView from "./ReasoningView.jsx";
 import ReportView from "./ReportView.jsx";
+import ScanPanel from "./ScanPanel.jsx";
+import PatternView from "./PatternView.jsx";
 import { C, FONT, btn, sectionLabel } from "./theme.js";
 
 const STORE = "elektrolang.workup.v1";
@@ -55,7 +59,15 @@ export default function WorkupApp({ lang, setLang, onMode }) {
     setSel("I");
   };
 
-  const tabs = ["draw", "measure", "workup", "report"];
+  const applyScan = (res) => {
+    if (!window.confirm(PUI[lang].scan.confirmReplace)) return;
+    setEcg(scanToCase(res, { sex: ecg.meta.sex, age: ecg.meta.age }));
+    setSel("I");
+    setTab("patterns");
+  };
+
+  const tabs = ["scan", "draw", "measure", "workup", "patterns", "report"];
+  const tabLabel = (k) => W.tabs[k] ?? PUI[lang].tabs[k];
   const abnormalCount = result.findings.length;
 
   return (
@@ -79,18 +91,19 @@ export default function WorkupApp({ lang, setLang, onMode }) {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "flex", borderBottom: `1px solid ${C.line}`, position: "sticky", top: 0, background: C.bg, zIndex: 10 }}>
+      <div style={{ display: "flex", overflowX: "auto", borderBottom: `1px solid ${C.line}`, position: "sticky", top: 0, background: C.bg, zIndex: 10 }}>
         {tabs.map(k => (
           <button key={k} onClick={() => setTab(k)} style={{
-            flex: 1, background: "none", border: "none", cursor: "pointer", fontFamily: FONT,
+            flex: "1 0 auto", background: "none", border: "none", cursor: "pointer", fontFamily: FONT,
             borderBottom: `2px solid ${tab === k ? C.accent : "transparent"}`,
-            color: tab === k ? C.accent : C.dim, fontWeight: 800, fontSize: 11, letterSpacing: 1.3, padding: "10px 2px 8px",
+            color: tab === k ? C.accent : C.dim, fontWeight: 800, fontSize: 11, letterSpacing: 1.3, padding: "10px 9px 8px",
           }}>
-            {W.tabs[k]}{k === "report" && abnormalCount > 0 ? ` · ${abnormalCount}` : ""}
+            {tabLabel(k)}{k === "report" && abnormalCount > 0 ? ` · ${abnormalCount}` : ""}
           </button>
         ))}
       </div>
 
+      {tab === "scan" && <ScanPanel ecg={ecg} update={update} lang={lang} onApply={applyScan} />}
       {tab === "draw" && (
         <>
           <p style={{ color: C.dim, fontSize: 11.5, lineHeight: 1.5, margin: 0, padding: "8px 14px 0" }}>{W.drawHint}</p>
@@ -119,6 +132,7 @@ export default function WorkupApp({ lang, setLang, onMode }) {
       )}
       {tab === "measure" && <MeasureForm ecg={ecg} update={update} W={W} />}
       {tab === "workup" && <ReasoningView result={result} W={W} focus={focus} />}
+      {tab === "patterns" && <PatternView ecg={ecg} result={result} lang={lang} update={update} onScan={() => setTab("scan")} />}
       {tab === "report" && <ReportView result={result} W={W} onGoStep={goStep} />}
     </div>
   );

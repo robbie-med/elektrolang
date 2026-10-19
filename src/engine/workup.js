@@ -95,7 +95,14 @@ export function runWorkup(ecg, lang = "en") {
   const next = modules.flatMap(md => md.next.map(text => ({ text, step: md.n })));
   const recs = ctx.recs.map(k => T.rec[k]);
 
-  return { modules, findings, retracted, recs, next, coverage: coverage(ecg) };
+  // Numbers the pattern layer reuses instead of recomputing.
+  const metrics = {
+    qtc: ctx.qtc ?? null,
+    axisDeg: ctx.axis ? ctx.axis.deg : null,
+    axisCat: ctx.axis ? ctx.axis.cat : null,
+    bbb: ctx.bbb || null,
+  };
+  return { modules, findings, retracted, recs, next, coverage: coverage(ecg), metrics };
 }
 
 function coverage(ecg) {
@@ -871,6 +878,7 @@ function qt(ctx) {
     M.status = qtc > thr - 10 || qtc <= 390 ? "borderline" : "normal";
   }
   ctx.longQT = qtc > thr;
+  ctx.qtc = qtc;
   M.resolution = T.qt.resolution(qtc, which, M.status);
   M.short = M.resolution;
   return M;

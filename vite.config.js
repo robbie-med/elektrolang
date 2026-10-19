@@ -57,6 +57,11 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,svg,png,woff2}"],
+        // pdf.js worker (1.4 MB, only needed when someone opens a PDF): cache it
+        // on first use instead of making every install download it.
+        runtimeCaching: [
+          { urlPattern: /\.mjs$/, handler: "CacheFirst", options: { cacheName: "pdf-worker" } },
+        ],
       },
     }),
   ],
