@@ -3,12 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "EKG Reader — a systematic 12-lead ECG interpretation trainer (PWA).",
+  "description": "EKG Reader \u2014 draw the 12 leads, get a reasoned ECG workup (PWA).",
   "scripts": {
     "gen:icons": "node scripts/gen-icons.mjs",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test \"src/engine/**/*.test.js\""
   },
   "dependencies": {
     "react": "^18.3.1",

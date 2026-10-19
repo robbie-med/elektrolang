@@ -3,9 +3,11 @@ import { STEPS } from "./data/steps.js";
 import { STEPS as STEPS_KO } from "./data/steps.ko.js";
 import StepView from "./components/StepView.jsx";
 import ReportScreen from "./components/ReportScreen.jsx";
+import WorkupApp from "./components/workup/WorkupApp.jsx";
 
 export default function App() {
   const [lang, setLang] = useState("en");
+  const [mode, setMode] = useState("workup");
   const [stepIndex, setStepIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [toast, setToast] = useState(null);
@@ -49,8 +51,12 @@ export default function App() {
     setToast(null); setDone(false); setAnswers([]);
   };
 
+  if (mode === "workup") return (
+    <WorkupApp lang={lang} setLang={setLang} onMode={() => setMode("trainer")} />
+  );
+
   if (done) return (
-    <ReportScreen answers={answers} onReset={reset} onNavigate={navigateTo} stepIndex={-1} lang={lang} setLang={setLang} steps={steps} />
+    <ReportScreen answers={answers} onReset={reset} onNavigate={navigateTo} stepIndex={-1} lang={lang} setLang={setLang} steps={steps} onMode={() => setMode("workup")} />
   );
 
   return (
@@ -66,6 +72,7 @@ export default function App() {
       lang={lang}
       setLang={setLang}
       steps={steps}
+      onMode={() => setMode("workup")}
     />
   );
 }

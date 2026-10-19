@@ -5,7 +5,7 @@ import EKGStrip from "./EKGStrip.jsx";
 import CriteriaTable from "./CriteriaTable.jsx";
 import StepMenu from "./StepMenu.jsx";
 
-export default function StepView({ step, stepIndex, total, onSelect, selected, toast, answers, onNavigate, lang, setLang, steps }) {
+export default function StepView({ step, stepIndex, total, onSelect, selected, toast, answers, onNavigate, lang, setLang, steps, onMode }) {
   const [criteriaOpen, setCriteriaOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const hl = HL[step.hl];
@@ -22,6 +22,14 @@ export default function StepView({ step, stepIndex, total, onSelect, selected, t
           <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, maxWidth: 110, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flexShrink: 1 }}>
             {step.title.toUpperCase()}
           </span>
+          <button
+            onClick={onMode}
+            style={{
+              background: "none", border: "1px solid #163d28", borderRadius: 4,
+              color: "#00e676", cursor: "pointer", fontSize: 10, fontWeight: 800,
+              padding: "3px 6px", letterSpacing: 1, flexShrink: 0, fontFamily: "inherit",
+            }}
+          >{t.workupMode}</button>
           <button
             onClick={() => setLang(lang === "en" ? "ko" : "en")}
             style={{

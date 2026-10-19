@@ -1,6 +1,7 @@
 export const UI = {
   en: {
     appName: "EKG READER",
+    workupMode: "WORKUP",
     allSteps: "ALL STEPS",
     interpretation: "INTERPRETATION",
     diagnosticCriteria: "DIAGNOSTIC CRITERIA & THRESHOLDS",
@@ -12,6 +13,7 @@ export const UI = {
   },
   ko: {
     appName: "EKG 판독기",
+    workupMode: "정밀판독",
     allSteps: "전체 단계",
     interpretation: "판독",
     diagnosticCriteria: "진단 기준 및 임계값",

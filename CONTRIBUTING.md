@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-The dev server runs at `http://localhost:5173` with hot module replacement.
+The dev server runs at `http://127.0.0.1:3944` with hot module replacement.
 
 ## What to work on
 

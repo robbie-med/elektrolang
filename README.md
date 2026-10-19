@@ -37,7 +37,7 @@ No backend. No database. No tracking.
 # Install dependencies
 npm install
 
-# Start dev server (http://localhost:5173)
+# Start dev server (http://127.0.0.1:3944)
 npm run dev
 
 # Production build → dist/

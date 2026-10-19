@@ -2,7 +2,7 @@ import { useState } from "react";
 import { UI } from "../i18n/ui.js";
 import StepMenu from "./StepMenu.jsx";
 
-export default function ReportScreen({ answers, onReset, onNavigate, stepIndex, lang, setLang, steps }) {
+export default function ReportScreen({ answers, onReset, onNavigate, stepIndex, lang, setLang, steps, onMode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const t = UI[lang ?? "en"];
 
@@ -43,6 +43,14 @@ export default function ReportScreen({ answers, onReset, onNavigate, stepIndex, 
         <span style={{ color: "#00e676", fontWeight: 800, fontSize: 13, letterSpacing: 2.5 }}>{t.appName}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ background: "#0a3d20", color: "#00e676", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 800, letterSpacing: 1.5, flexShrink: 0 }}>{t.finalReport}</span>
+          <button
+            onClick={onMode}
+            style={{
+              background: "none", border: "1px solid #163d28", borderRadius: 4,
+              color: "#00e676", cursor: "pointer", fontSize: 10, fontWeight: 800,
+              padding: "3px 6px", letterSpacing: 1, flexShrink: 0, fontFamily: "inherit",
+            }}
+          >{t.workupMode}</button>
           <button
             onClick={() => setLang(lang === "en" ? "ko" : "en")}
             style={{
